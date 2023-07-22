@@ -1,0 +1,106 @@
+teams:
+  yellow:
+  - teams/yellow1.wav
+  - teams/yellow2.wav
+  - teams/yellow3.wav
+  blue:
+  - teams/blue1.wav
+  - teams/blue2.wav
+  - teams/blue3.wav
+  unknown:
+  - teams/both.wav
+
+  "TIGERs Mannheim":
+  - teams/tigers1.wav
+  - teams/tigers2.wav
+  "ER-Force":
+  - teams/er_force.wav
+  "Immortals":
+  - teams/immortals.wav
+  "RoboTeam Twente":
+  - teams/twente.wav
+
+stages:
+  normal_half_time:
+  - halftime.wav
+  extra_time_break:
+  - overtime.wav
+  extra_half_time:
+  - halftime.wav
+  penalty_shootout_break:
+  - penalty_shootout.wav
+  post_game:
+  - game_ends.wav
+
+whistle:
+  halt:
+  - long_whistle.wav
+  stop:
+  - short_whistle.wav
+  normal_start:
+  - short_whistle.wav
+  force_start:
+  - short_whistle.wav
+
+commands:
+  prepare_kickoff_yellow:
+  - kickoff.wav Y
+  prepare_kickoff_blue:
+  - kickoff.wav B
+  prepare_penalty_yellow:
+  - penalty.wav Y
+  prepare_penalty_blue:
+  - penalty.wav B
+  direct_free_yellow:
+  - free_kick.wav Y
+  direct_free_blue:
+  - free_kick.wav B
+  timeout_yellow:
+  - timeout.wav Y
+  timeout_blue:
+  - timeout.wav B
+
+game_events:
+  ball_left_field_touch_line:
+  - ball_left_field.wav
+  ball_left_field_goal_line:
+  - ball_left_field.wav
+  attacker_too_close_to_defense_area:
+  - foul.wav T attacker_too_close.wav
+  defender_in_defense_area:
+  - foul.wav T multiple_defenders.wav
+  keeper_held_ball:
+  - foul.wav T keeper_held_ball.wav
+  bot_dribbled_ball_too_far:
+  - foul.wav T excessive_dribbling.wav
+  attacker_touched_ball_in_defense_area:
+  - foul.wav T attacker_in_defense.wav
+  bot_kicked_ball_too_fast:
+  - foul.wav T ball_speed.wav
+  bot_crash_unique:
+  - foul.wav T crashing.wav
+  bot_crash_drawn:
+  - foul.wav teams/both.wav crashing.wav
+  defender_too_close_to_kick_point:
+  - foul.wav T too_close_to_ball.wav
+  bot_too_fast_in_stop:
+  - foul.wav T bot_speed.wav
+  bot_interfered_placement:
+  - foul.wav T ball_placement_interference.wav
+  goal:
+  - goal.wav T
+  attacker_double_touched_ball:
+  - double_touch.wav
+  no_progress_in_game:
+  - no_progress.wav
+  bot_substitution:
+  - robot_substitution.wav T
+  too_many_robots:
+  - too_many_robots.wav T
+  challenge_flag:
+  - challenge_flag.wav
+
+yellow_card:
+- yellow_card.wav T
+red_card:
+- red_card.wav T

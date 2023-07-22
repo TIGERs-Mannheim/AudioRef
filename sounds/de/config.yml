@@ -41,6 +41,10 @@ whistle:
   - short_whistle.wav
   force_start:
   - short_whistle.wav
+  direct_free_yellow:
+  - short_whistle.wav
+  direct_free_blue:
+  - short_whistle.wav
 
 commands:
   prepare_kickoff_yellow:

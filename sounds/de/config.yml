@@ -14,7 +14,7 @@ teams:
   - teams/tigers1.wav
   - teams/tigers2.wav
   "ER-Force":
-  - teams/er_force.wav
+  - teams/er-force.wav
   "Immortals":
   - teams/immortals.wav
   "RoboTeam Twente":
@@ -55,16 +55,30 @@ commands:
   - penalty.wav Y
   prepare_penalty_blue:
   - penalty.wav B
-  direct_free_yellow:
-  - free_kick.wav Y
-  direct_free_blue:
-  - free_kick.wav B
   timeout_yellow:
   - timeout.wav Y
   timeout_blue:
   - timeout.wav B
 
+direct_free_yellow:
+  corner_kick:
+  - corner_kick.wav Y
+  throw_in:
+  - throw_in.wav Y
+  free_kick:
+  - free_kick.wav Y
+
+direct_free_blue:
+  corner_kick:
+  - corner_kick.wav B
+  throw_in:
+  - throw_in.wav B
+  free_kick:
+  - free_kick.wav B
+
 game_events:
+  aimless_kick:
+  - ball_left_field.wav
   ball_left_field_touch_line:
   - ball_left_field.wav
   ball_left_field_goal_line:

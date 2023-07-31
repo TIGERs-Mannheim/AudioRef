@@ -12,6 +12,7 @@ import simpleaudio
 import gcproto.ssl_gc_referee_message_pb2 as ssl_referee_message
 import gcproto.ssl_gc_common_pb2 as ssl_common
 import gcproto.ssl_gc_game_event_pb2 as ssl_game_event
+import gcproto.ssl_vision_wrapper_pb2 as ssl_vision_wrapper
 
 
 def open_multicast_socket(ip, port):
@@ -68,18 +69,28 @@ class SoundPack:
 
 class AudioRef:
 
-    def __init__(self, pack: SoundPack, ip, port, max_queue_len=5):
+    def __init__(self, pack: SoundPack, gc_ip, gc_port, vision_ip, vision_port,
+                 max_queue_len=5, placement_distance=200.0):
         self.pack = pack
         self.max_queue_len = max_queue_len
-        self.sock = open_multicast_socket(ip, port)
+        self.placement_distance = placement_distance
+        self.gc_socket = open_multicast_socket(gc_ip, gc_port)
+        self.vision_socket = open_multicast_socket(vision_ip, vision_port)
 
         self.sound_queue = queue.Queue()
         self.player_thread = threading.Thread(target=self._queue_player, name='sound player', daemon=True)
         self.player_thread.start()
 
+        self.half_field_size = [4500.0, 3000.0]
+        self.geometry_thread = threading.Thread(target=self._geometry_receiver, name='vision receiver', daemon=True)
+        self.geometry_thread.start()
+
         self.current_game_event_timestamp = 0
-        self.current_stage = ssl_referee_message.Referee.Stage.NORMAL_FIRST_HALF_PRE
-        self.current_command = ssl_referee_message.Referee.Command.HALT
+        self.current = {
+            'stage': ssl_referee_message.Referee.Stage.NORMAL_FIRST_HALF_PRE,
+            'command': ssl_referee_message.Referee.Command.HALT,
+            'next_command': ssl_referee_message.Referee.Command.STOP
+        }
         self.yellow_cards = [0, 0]
         self.blue_cards = [0, 0]
 
@@ -92,48 +103,70 @@ class AudioRef:
             for sound in soundline:
                 sound.play().wait_done()
 
+    def _geometry_receiver(self):
+        while True:
+            wrapper = ssl_vision_wrapper.SSL_WrapperPacket()
+            wrapper.ParseFromString(self.vision_socket.recv(65536))
+            if hasattr(wrapper, 'geometry'):
+                field = wrapper.geometry.field
+                self.half_field_size = [field.field_length/2, field.field_width/2]
+
     def run(self):
         while True:
             msg = ssl_referee_message.Referee()
-            msg.ParseFromString(self.sock.recv(10240))
+            msg.ParseFromString(self.gc_socket.recv(65536))
 
-            self.stage(msg)
-            self.command(msg)
+            self.enum_sound(self.stage, ssl_referee_message.Referee.Stage, msg)
+            self.enum_sound(self.command, ssl_referee_message.Referee.Command, msg)
             for event in msg.game_events:
                 self.game_event(msg, event)
             self.cards(msg, 'yellow', self.yellow_cards)
             self.cards(msg, 'blue', self.blue_cards)
+            self.enum_sound(self.next_command, ssl_referee_message.Referee.Command, msg, key='next_command')
 
-    def stage(self, msg):
-        stage = msg.stage
-        if stage == self.current_stage:
+    def try_sound(self, key, value_name, msg=None, team=None, queued=True):
+        try:
+            sound = self.pack.get_sound(self.pack.config[key][value_name], msg=msg, team=team)
+        except KeyError:
             return
-        self.current_stage = stage
 
-        stagename = ssl_referee_message.Referee.Stage.Name(stage).lower()
+        if queued:
+            self.sound_queue.put(sound)
+        else:
+            sound[0].play()
 
-        try:
-            self.sound_queue.put(self.pack.get_sound(self.pack.config['stages'][stagename]))
-        except KeyError:
-            pass
+    def enum_sound(self, fn, enum, msg, key: str = None):
+        if not key:
+            key = enum._enum_type.name.lower()
 
-    def command(self, msg):
-        command = msg.command
-        if command == self.current_command:
+        value = getattr(msg, key)
+        if value == self.current[key]:
             return
-        self.current_command = command
+        self.current[key] = value
 
-        commandname = ssl_referee_message.Referee.Command.Name(command).lower()
+        fn(msg, enum.Name(value).lower())
 
-        try:
-            self.pack.get_sound(self.pack.config['whistle'][commandname], msg=msg)[0].play()
-        except KeyError:
-            pass
+    def stage(self, msg, stage):
+        self.try_sound('stages', stage, msg=msg)
 
-        try:
-            self.sound_queue.put(self.pack.get_sound(self.pack.config['commands'][commandname], msg=msg))
-        except KeyError:
-            pass
+    def command(self, msg, command):
+        self.try_sound('whistle', command, msg=msg, queued=False)
+        self.try_sound('commands', command, msg=msg)
+
+    def next_command(self, msg, command):
+        self.try_sound('next_commands', command, msg=msg)
+
+        if hasattr(msg, 'designated_position'):
+            at_goal_line = abs(msg.designated_position.x) - self.placement_distance == self.half_field_size[0]
+            at_touch_line = abs(msg.designated_position.y) - self.placement_distance == self.half_field_size[1]
+
+            if at_touch_line:
+                if at_goal_line:
+                    self.try_sound(command, 'corner_kick', msg=msg)
+                else:
+                    self.try_sound(command, 'throw_in', msg=msg)
+            else:
+                self.try_sound(command, 'free_kick', msg=msg)
 
     def game_event(self, msg, event):
         if event.created_timestamp <= self.current_game_event_timestamp:
@@ -149,7 +182,7 @@ class AudioRef:
         except AttributeError:
             team = None
 
-        self.sound_queue.put(self.pack.get_sound(self.pack.config['game_events'][typename], msg=msg, team=team))
+        self.try_sound('game_events', typename, msg=msg, team=team)
 
     def cards(self, msg, team, current_cards):
         team_info = getattr(msg, team)
@@ -169,8 +202,15 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(prog='AudioRef')
     parser.add_argument('--gc_ip', default='224.5.23.1', help='Multicast IP address of the game controller')
     parser.add_argument('--gc_port', type=int, default=10003, help='Multicast port of the game controller')
+    parser.add_argument('--vision_ip', default='224.5.23.2', help='Multicast IP address of the game controller')
+    parser.add_argument('--vision_port', type=int, default=10006, help='Multicast port of the game controller')
     parser.add_argument('--pack', default='sounds/de', help='Path to the sound pack')
     parser.add_argument('--max_queue_len', type=int, default=5, help='Maximum of sounds in the queue')
     args = parser.parse_args()
 
-    AudioRef(SoundPack(args.pack), args.gc_ip, args.gc_port, max_queue_len=args.max_queue_len).run()
+    AudioRef(
+        SoundPack(args.pack),
+        args.gc_ip, args.gc_port,
+        args.vision_ip, args.vision_port,
+        max_queue_len=args.max_queue_len
+    ).run()

@@ -107,7 +107,7 @@ class AudioRef:
         while True:
             wrapper = ssl_vision_wrapper.SSL_WrapperPacket()
             wrapper.ParseFromString(self.vision_socket.recv(65536))
-            if hasattr(wrapper, 'geometry'):
+            if wrapper.HasField('geometry'):
                 field = wrapper.geometry.field
                 self.half_field_size = [field.field_length/2, field.field_width/2]
 
@@ -157,8 +157,8 @@ class AudioRef:
         self.try_sound('next_commands', command, msg=msg)
 
         if hasattr(msg, 'designated_position'):
-            at_goal_line = abs(msg.designated_position.x) - self.placement_distance == self.half_field_size[0]
-            at_touch_line = abs(msg.designated_position.y) - self.placement_distance == self.half_field_size[1]
+            at_goal_line = abs(msg.designated_position.x) == self.half_field_size[0] - self.placement_distance
+            at_touch_line = abs(msg.designated_position.y) == self.half_field_size[1] - self.placement_distance
 
             if at_touch_line:
                 if at_goal_line:

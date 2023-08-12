@@ -5,9 +5,11 @@ import random
 import socket
 import struct
 import threading
+from typing import Optional
 
 import yaml
 import simpleaudio
+from simpleaudio import PlayObject
 
 import gcproto.ssl_gc_referee_message_pb2 as ssl_referee_message
 import gcproto.ssl_gc_common_pb2 as ssl_common
@@ -77,6 +79,7 @@ class AudioRef:
         self.gc_socket = open_multicast_socket(gc_ip, gc_port)
         self.vision_socket = open_multicast_socket(vision_ip, vision_port)
 
+        self.whistle: Optional[PlayObject] = None
         self.sound_queue = queue.Queue()
         self.player_thread = threading.Thread(target=self._queue_player, name='sound player', daemon=True)
         self.player_thread.start()
@@ -133,7 +136,10 @@ class AudioRef:
         if queued:
             self.sound_queue.put(sound)
         else:
-            sound[0].play()
+            if self.whistle is not None and self.whistle.is_playing():
+                self.whistle.stop()
+
+            self.whistle = sound[0].play()
 
     def enum_sound(self, fn, enum, msg, key: str = None):
         if not key:

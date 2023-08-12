@@ -88,14 +88,17 @@ class AudioRef:
         self.geometry_thread = threading.Thread(target=self._geometry_receiver, name='vision receiver', daemon=True)
         self.geometry_thread.start()
 
-        self.current_game_event_timestamp = 0
+        msg = ssl_referee_message.Referee()
+        msg.ParseFromString(self.gc_socket.recv(65536))
+
         self.current = {
-            'stage': ssl_referee_message.Referee.Stage.NORMAL_FIRST_HALF_PRE,
-            'command': ssl_referee_message.Referee.Command.HALT,
-            'next_command': ssl_referee_message.Referee.Command.STOP
+            'stage': msg.stage,
+            'command': msg.command,
+            'next_command': msg.next_command
         }
-        self.yellow_cards = [0, 0]
-        self.blue_cards = [0, 0]
+        self.yellow_cards = [msg.yellow.yellow_cards, msg.yellow.red_cards]
+        self.blue_cards = [msg.blue.yellow_cards, msg.blue.red_cards]
+        self.current_game_event_timestamp = msg.game_events[0].created_timestamp if len(msg.game_events) > 0 else 0
 
     def _queue_player(self):
         while True:

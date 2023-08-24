@@ -1,24 +1,40 @@
 teams:
   yellow:
-  - teams/yellow1.wav
-  - teams/yellow2.wav
-  - teams/yellow3.wav
+  - teams/yellow.wav
   blue:
-  - teams/blue1.wav
-  - teams/blue2.wav
-  - teams/blue3.wav
+  - teams/blue.wav
   unknown:
   - teams/both.wav
 
-  "TIGERs Mannheim":
-  - teams/tigers1.wav
-  - teams/tigers2.wav
   "ER-Force":
   - teams/er-force.wav
   "Immortals":
   - teams/immortals.wav
+  "KIKS":
+  - teams/kiks.wav
+  "luhbots":
+  - teams/luhbots.wav
+  "NAMeC":
+  - teams/namec.wav
+  "RobôCin":
+  - teams/robocin.wav
+  "RoboDragons":
+  - teams/robodragons.wav
+  "RoboFEI":
+  - teams/robofei.wav
+  "RoboIME":
+  - teams/roboime.wav
   "RoboTeam Twente":
   - teams/twente.wav
+  "SRC":
+  - teams/src.wav
+  "TIGERs Mannheim":
+  - teams/tigers1.wav
+  - teams/tigers2.wav
+  "UBC Thunderbots":
+  - teams/thunderbots.wav
+  "ZJUNlict":
+  - teams/zjunlict.wav
 
 stages:
   normal_half_time:

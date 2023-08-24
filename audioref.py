@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 import argparse
 import pathlib
 import queue
@@ -105,6 +106,9 @@ class AudioRef:
             while self.sound_queue.qsize() > self.max_queue_len:
                 self.sound_queue.get_nowait()
 
+            if self.whistle and self.whistle.is_playing():
+                self.whistle.wait_done()
+
             soundline: tuple[simpleaudio.WaveObject] = self.sound_queue.get()
             for sound in soundline:
                 sound.play().wait_done()
@@ -122,8 +126,8 @@ class AudioRef:
             msg = ssl_referee_message.Referee()
             msg.ParseFromString(self.gc_socket.recv(65536))
 
-            self.enum_sound(self.stage, ssl_referee_message.Referee.Stage, msg)
             self.enum_sound(self.command, ssl_referee_message.Referee.Command, msg)
+            self.enum_sound(self.stage, ssl_referee_message.Referee.Stage, msg)
             for event in msg.game_events:
                 self.game_event(msg, event)
             self.cards(msg, 'yellow', self.yellow_cards)
@@ -213,8 +217,8 @@ if __name__ == "__main__":
     parser.add_argument('--gc_port', type=int, default=10003, help='Multicast port of the game controller')
     parser.add_argument('--vision_ip', default='224.5.23.2', help='Multicast IP address of the game controller')
     parser.add_argument('--vision_port', type=int, default=10006, help='Multicast port of the game controller')
-    parser.add_argument('--pack', default='sounds/de', help='Path to the sound pack')
-    parser.add_argument('--max_queue_len', type=int, default=5, help='Maximum of sounds in the queue')
+    parser.add_argument('--pack', default='sounds/en', help='Path to the sound pack')
+    parser.add_argument('--max_queue_len', type=int, default=3, help='Maximum of sounds in the queue')
     args = parser.parse_args()
 
     AudioRef(

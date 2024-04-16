@@ -13,12 +13,16 @@ teams:
   "TIGERs Mannheim":
   - teams/tigers1.wav
   - teams/tigers2.wav
+  "Tritons RCSC":
+  - teams/tritons.wav
   "ER-Force":
   - teams/er-force.wav
   "Immortals":
   - teams/immortals.wav
   "RoboTeam Twente":
   - teams/twente.wav
+  "luhbots":
+  - teams/luhbots.wav
 
 stages:
   normal_half_time:

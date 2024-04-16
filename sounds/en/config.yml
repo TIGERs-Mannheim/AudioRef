@@ -31,6 +31,8 @@ teams:
   "TIGERs Mannheim":
   - teams/tigers1.wav
   - teams/tigers2.wav
+  "Tritons RCSC":
+  - teams/tritons.wav
   "UBC Thunderbots":
   - teams/thunderbots.wav
   "ZJUNlict":

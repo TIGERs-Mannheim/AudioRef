@@ -4,7 +4,7 @@ A voice for the game controller!
 
 ## Dependencies
 
-- Python >=3.10
+- Python >=3.5
 - pyyaml
 - protobuf
 - simpleaudio

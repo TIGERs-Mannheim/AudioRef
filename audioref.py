@@ -142,6 +142,8 @@ class AudioRef:
                 self.half_field_size = [field.field_length/2, field.field_width/2]
 
     def run(self):
+        print("AudioRef running...")
+
         while True:
             msg = ssl_referee_message.Referee()
             msg.ParseFromString(self.gc_socket.recv(65536))
@@ -241,9 +243,14 @@ if __name__ == "__main__":
     parser.add_argument('--max_queue_len', type=int, default=3, help='Maximum of sounds in the queue')
     args = parser.parse_args()
 
-    AudioRef(
-        SoundPack(args.pack),
-        args.gc_ip, args.gc_port,
-        args.vision_ip, args.vision_port,
-        max_queue_len=args.max_queue_len
-    ).run()
+    print("Starting AudioRef\n")
+
+    try:
+        AudioRef(
+            SoundPack(args.pack),
+            args.gc_ip, args.gc_port,
+            args.vision_ip, args.vision_port,
+            max_queue_len=args.max_queue_len
+        ).run()
+    except KeyboardInterrupt:
+        print("\nStopping AudioRef")

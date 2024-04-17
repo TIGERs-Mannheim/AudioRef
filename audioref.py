@@ -65,7 +65,7 @@ class SoundPack:
         try:
             name = getattr(msg, team).name
 
-            if getattr(msg, "yellow").name == getattr(msg, "blue").name:
+            if msg.yellow.name == msg.blue.name:
                 raise AttributeError
 
             if name in self.config['teams']:
@@ -143,7 +143,6 @@ class AudioRef:
 
     def run(self):
         while True:
-            print("running")
             msg = ssl_referee_message.Referee()
             msg.ParseFromString(self.gc_socket.recv(65536))
 

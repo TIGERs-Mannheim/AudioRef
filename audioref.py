@@ -65,9 +65,11 @@ class SoundPack:
         try:
             name = getattr(msg, team).name
 
-            opponent_color = getattr(msg, "yellow") if team == "blue" else getattr(msg, "blue")
+            if getattr(msg, "yellow").name == getattr(msg, "blue").name:
+                raise AttributeError
 
-            team = name if name in self.config['teams'] and name != opponent_color.name else team
+            if name in self.config['teams']:
+                team = name
         except AttributeError:
             pass
 

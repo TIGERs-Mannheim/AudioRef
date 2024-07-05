@@ -168,12 +168,11 @@ agree to indemnify, defend, and hold each Contributor harmless for any liability
 incurred by, or claims asserted against, such Contributor by reason of your
 accepting any such warranty or additional liability.
 
-_END OF TERMS AND CONDITIONS_
-
 # Sound packs
 
 sounds/de © 2023 by Felix Weinmann is licensed under CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/)
 
 sounds/en © 2023 by Felix Weinmann is licensed under CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/)
 
-long_whistle.wav and short_whistle.wav have been adapted from https://freesound.org/people/SpliceSound/sounds/218318/.
+long_whistle.wav and short_whistle.wav have been adapted from https://freesound.org/people/SpliceSound/sounds/218318/
+(CC-0).

@@ -1,0 +1,4 @@
+grpcio-tools
+pyyaml
+protobuf
+simpleaudio

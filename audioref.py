@@ -29,12 +29,12 @@ from google.protobuf.internal.enum_type_wrapper import EnumTypeWrapper
 import simpleaudio
 import yaml
 
-if any(not os.path.exists('proto/' + proto + '_pb2.py') for proto in (
-        'ssl_gc_referee_message', 'ssl_gc_common', 'ssl_gc_game_event', 'ssl_vision_wrapper'
-)):
+if any(
+        not os.path.exists('proto/' + proto + '_pb2.py')
+        for proto in ('ssl_gc_referee_message', 'ssl_gc_common', 'ssl_gc_game_event', 'ssl_vision_wrapper')
+):
     print("Compiling Protobuf files...")
     import grpc_tools.protoc
-
     grpc_tools.protoc.main([
         'protoc',
         '--python_out=.', '--pyi_out=.',

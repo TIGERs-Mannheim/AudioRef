@@ -21,7 +21,7 @@ Download and install [Python](https://www.python.org/). \
 Open a command prompt (Win+R, `cmd`). \
 Creation and activation of the virtual environment
 (optional, is typically done to prevent other Python programs with different version requirements from interfering): \
-`python -m venv venv` \
+`py -m venv venv` \
 `venv\Scripts\activate` (needs to be run every time prior to starting AudioRef)
 
 Install the dependencies: \

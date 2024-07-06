@@ -3,22 +3,65 @@
 A voice for the game controller!
 Listens for game controller and vision packets and plays appropriate acoustic signals.
 
-## Dependencies
+
+## Installation
+
+### Dependencies
 
 - Python 3.5 or newer
 - `grpcio-tools`
   (Optional when compiling the protobuf files manually with `protoc --python_out=. --pyi_out=. proto/*.proto`)
 - `pyyaml`
 - `protobuf`
-- `simpleaudio` (in case of issues with `simpleaudio` and Python 3.12 use `simpleaudio-patched`)
+- `simpleaudio` (in case of issues with `simpleaudio` and Python 3.12 use `simpleaudio-patched` instead)
+
+### Windows
+
+Download and install [Python](https://www.python.org/). \
+Open a command prompt (Win+R, `cmd`). \
+Creation and activation of the virtual environment
+(optional, is typically done to prevent other Python programs with different version requirements from interfering): \
+`python -m venv venv` \
+`venv\Scripts\activate` (needs to be run every time prior to starting AudioRef)
+
+Install the dependencies: \
+`py -m pip install -r requirements.txt`
+
+Only in case of issues with `simpleaudio` and Python 3.12: \
+`py -m pip uninstall simpleaudio` \
+`py -m pip install simpleaudio-patched`
+
+### Linux
+
+PIP with virtual environment (recommended): \
+`python -m venv venv` \
+`source venv/bin/activate` (needs to be run every time prior to starting AudioRef) \
+`pip install -r requirements.txt`
+
+PIP: \
+`pip install -r requirements.txt`
+
+Package names for Arch based distributions: \
+`python python-yaml python-protobuf python-grpcio-tools` \
+AUR: `python-simpleaudio`
+
+Package names for Debian based distributions: \
+`apt install python3 python3-yaml python3-protobuf python3-grpc-tools` \
+(Simpleaudio is not available and must be installed by using PIP: `pip install simpleaudio`)
 
 
 ## Usage
 
 Linux, macOS: `./audioref.py` \
-Windows: `python audioref.py`
+Windows: `py audioref.py`
 
-For a list of available options add ` --help`.
+Available options:
+- `--gc_ip`: Multicast IP address of the game controller (default: 224.5.23.1)
+- `--gc_port`: Multicast port of the game controller (default: 10003)
+- `--vision_ip`: Multicast IP address of the vision (default: 224.5.23.2)
+- `--vision_port`: Multicast port of the vision (default: 10006)
+- `--pack`: Path to the sound pack (default: sounds/en)
+- `--max_queue_len`: Maximum amount of sound lines in the queue (default: 3)
 
 
 ## Creating a sound pack

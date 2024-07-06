@@ -288,6 +288,7 @@ class AudioRef:
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(prog='AudioRef')
+    # When editing the arguments also edit the corresponding section in README.md
     parser.add_argument('--gc_ip', default='224.5.23.1', help='Multicast IP address of the game controller (default: 224.5.23.1)')
     parser.add_argument('--gc_port', type=int, default=10003, help='Multicast port of the game controller (default: 10003)')
     parser.add_argument('--vision_ip', default='224.5.23.2', help='Multicast IP address of the vision (default: 224.5.23.2)')

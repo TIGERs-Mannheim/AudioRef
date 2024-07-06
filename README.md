@@ -19,7 +19,7 @@ Listens for game controller and vision packets and plays appropriate acoustic si
 
 ### Windows
 
-Download and install [Python](https://www.python.org/) (3.11 recommended).
+Download and install [Python](https://www.python.org/).
 
 Open a command prompt (Win+R, `cmd`).
 
@@ -34,12 +34,6 @@ venv\Scripts\activate
 Install the dependencies:
 ```commandline
 py -m pip install -r requirements.txt
-```
-
-Only in case of issues with `simpleaudio` and Python 3.12:
-```commandline
-py -m pip uninstall simpleaudio
-py -m pip install simpleaudio-patched
 ```
 
 

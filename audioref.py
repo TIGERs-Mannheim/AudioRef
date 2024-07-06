@@ -148,6 +148,7 @@ class AudioRef:
         self.geometry_thread.start()
 
         # Initialize current state to prevent sound spam when restarting the AudioRef mid-game
+        print("Waiting for referee message...")
         msg = receive_multicast(self.gc_socket, Referee())
 
         self.current = {
@@ -182,7 +183,7 @@ class AudioRef:
 
     def run(self):
         """SSL-game controller receiver and sound emitting method"""
-        print("AudioRef running...")
+        print("Initialized. AudioRef running")
 
         while True:
             msg = receive_multicast(self.gc_socket, Referee())
@@ -297,8 +298,6 @@ if __name__ == "__main__":
     parser.add_argument('--max_queue_len', type=int, default=3, help='Maximum amount of sound lines in the queue (default: 3)')
     args = parser.parse_args()
 
-    print("Starting AudioRef\n")
-
     try:
         AudioRef(
             SoundPack(args.pack),
@@ -307,4 +306,4 @@ if __name__ == "__main__":
             max_queue_len=args.max_queue_len
         ).run()
     except KeyboardInterrupt:
-        print("\nStopping AudioRef")
+        print("Stopping AudioRef")

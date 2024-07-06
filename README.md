@@ -8,7 +8,7 @@ Listens for game controller and vision packets and plays appropriate acoustic si
 
 ### Dependencies
 
-- Python 3.5 or newer
+- Python 3.8 or newer
 - `grpcio-tools`
   (Optional when compiling the protobuf files manually with `protoc --python_out=. --pyi_out=. proto/*.proto`)
 - `pyyaml`
@@ -17,37 +17,43 @@ Listens for game controller and vision packets and plays appropriate acoustic si
 
 ### Windows
 
-Download and install [Python](https://www.python.org/). \
-Open a command prompt (Win+R, `cmd`). \
+Download and install [Python](https://www.python.org/) (3.11 recommended).
+
+Open a command prompt (Win+R, `cmd`).
+
 Creation and activation of the virtual environment
-(optional, is typically done to prevent other Python programs with different version requirements from interfering): \
-`py -m venv venv` \
-`venv\Scripts\activate` (needs to be run every time prior to starting AudioRef)
+(optional, is typically done to prevent other Python programs with different version requirements from interfering).
+`venv\Scripts\activate` needs to be run every time prior to starting AudioRef:
+```commandline
+py -m venv venv
+venv\Scripts\activate
+```
 
-Install the dependencies: \
-`py -m pip install -r requirements.txt`
+Install the dependencies:
+```commandline
+py -m pip install -r requirements.txt
+```
 
-Only in case of issues with `simpleaudio` and Python 3.12: \
-`py -m pip uninstall simpleaudio` \
-`py -m pip install simpleaudio-patched`
+Only in case of issues with `simpleaudio` and Python 3.12:
+```commandline
+py -m pip uninstall simpleaudio
+py -m pip install simpleaudio-patched
+```
+
 
 ### Linux
 
-PIP with virtual environment (recommended): \
-`python -m venv venv` \
-`source venv/bin/activate` (needs to be run every time prior to starting AudioRef) \
-`pip install -r requirements.txt`
+PIP with virtual environment (recommended):
+```sh
+python -m venv venv
+source venv/bin/activate  # needs to be run every time prior to starting AudioRef
+pip install -r requirements.txt
+```
 
-PIP: \
-`pip install -r requirements.txt`
-
-Package names for Arch based distributions: \
-`python python-yaml python-protobuf python-grpcio-tools` \
-AUR: `python-simpleaudio`
-
-Package names for Debian based distributions: \
-`apt install python3 python3-yaml python3-protobuf python3-grpc-tools` \
-(Simpleaudio is not available and must be installed by using PIP: `pip install simpleaudio`)
+PIP:
+```sh
+pip install -r requirements.txt
+```
 
 
 ## Usage

@@ -6,6 +6,7 @@ Listens for game controller and vision packets and plays appropriate acoustic si
 
 ## Installation
 
+
 ### Dependencies
 
 - Python 3.8 or newer
@@ -14,6 +15,7 @@ Listens for game controller and vision packets and plays appropriate acoustic si
 - `pyyaml`
 - `protobuf`
 - `simpleaudio` (in case of issues with `simpleaudio` and Python 3.12 use `simpleaudio-patched` instead)
+
 
 ### Windows
 
@@ -43,15 +45,10 @@ py -m pip install simpleaudio-patched
 
 ### Linux
 
-PIP with virtual environment (recommended):
+Installation with PIP in virtual environment (Ubuntu needs packages `python3-venv python3-dev libasound2-dev`):
 ```sh
-python -m venv venv
+python3 -m venv venv
 source venv/bin/activate  # needs to be run every time prior to starting AudioRef
-pip install -r requirements.txt
-```
-
-PIP:
-```sh
 pip install -r requirements.txt
 ```
 

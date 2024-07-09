@@ -5,17 +5,24 @@ teams:
   - teams/blue.wav
   unknown:
   - teams/both.wav
-
+  "A-Team":
+  - teams/ateam.wav
+  "Delft Mercurians":
+  - teams/delftmercurians.wav
   "ER-Force":
   - teams/er-force.wav
   "Immortals":
   - teams/immortals.wav
+  "ITAndroids":
+  - teams/itandroids.wav
   "KIKS":
   - teams/kiks.wav
   "luhbots":
   - teams/luhbots.wav
   "NAMeC":
   - teams/namec.wav
+  "Ri-one":
+  - teams/ri-one.wav
   "RobôCin":
   - teams/robocin.wav
   "RoboDragons":
@@ -24,6 +31,8 @@ teams:
   - teams/robofei.wav
   "RoboIME":
   - teams/roboime.wav
+  "RoboJackets":
+  - teams/robojackets.wav
   "RoboTeam Twente":
   - teams/twente.wav
   "SRC":
@@ -33,6 +42,8 @@ teams:
   - teams/tigers2.wav
   "Tritons RCSC":
   - teams/tritons.wav
+  "TurtleRabbit":
+  - teams/turtlerabbit.wav
   "UBC Thunderbots":
   - teams/thunderbots.wav
   "ZJUNlict":

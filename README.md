@@ -1,7 +1,9 @@
 # AudioRef
 
 A voice for the game controller!
-Listens for game controller and vision packets and plays appropriate acoustic signals.
+Listens for game controller packets and plays appropriate acoustic signals with the aim
+to give referees, participants and spectators an immediate and intuitive understanding
+of the current game state.
 
 
 ## Installation

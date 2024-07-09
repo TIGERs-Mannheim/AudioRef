@@ -80,7 +80,7 @@ class SoundPack:
             ] = simpleaudio.WaveObject.from_wave_file(str(path))
 
     def team_sound(self, msg: Referee, team: str) -> simpleaudio.WaveObject:
-        """Returns a corresponding sound to team using the gc message msg to resolve team names.
+        """Returns a corresponding sound for the team using the gc message msg to resolve team names.
 
         :param msg: Referee message
         :param team: 'yellow', 'blue' or 'unknown'
@@ -96,7 +96,7 @@ class SoundPack:
         return self.sounds[random.choice(self.config['teams'][team])]
 
     def get_sound(self, *path: str, msg: Referee=None, team: str=None) -> Tuple[simpleaudio.WaveObject, ...]:
-        """Returns a corresponding sound to team using the gc message msg to resolve team names.
+        """Returns a sound line for the given path, replacing placeholders with corresponding team sounds.
 
         :param path: Path in the config file to the list of sound lines for the event
         :param msg: Referee message
@@ -130,7 +130,8 @@ class AudioRef:
             gc_ip: str, gc_port: int,
             vision_ip: str, vision_port: int,
             max_queue_len: int=3,
-            placement_distance: float=200.0  # Distance in mm from the field boundary for throw ins and corner kicks
+            # Distance in mm from the field boundary for throw in and corner kick detection
+            placement_distance: float=200.0
     ):
         self.pack = pack
         self.max_queue_len = max_queue_len
@@ -147,7 +148,7 @@ class AudioRef:
         self.geometry_thread = threading.Thread(target=self._geometry_receiver, name='vision receiver', daemon=True)
         self.geometry_thread.start()
 
-        # Initialize current state to prevent sound spam when restarting the AudioRef mid-game
+        # Initialize the current state to prevent sound spam when restarting the AudioRef mid-game
         print("Waiting for referee message...")
         msg = receive_multicast(self.gc_socket, Referee())
 
@@ -182,7 +183,7 @@ class AudioRef:
                 self.half_field_size = [field.field_length/2, field.field_width/2]
 
     def run(self):
-        """SSL-game controller receiver and sound emitting method"""
+        """SSL-game controller receiver and sound queueing method"""
         print("Initialized. AudioRef running")
 
         while True:

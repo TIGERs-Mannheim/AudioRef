@@ -281,11 +281,15 @@ class AudioRef:
         if yellow_cards > current_cards[0]:
             current_cards[0] += 1
             self.play_sound('yellow_card', msg=msg, team=team)
+        else:
+            current_cards[0] = yellow_cards
 
         red_cards = team_info.red_cards
         if red_cards > current_cards[1]:
             current_cards[1] += 1
             self.play_sound('red_card', msg=msg, team=team)
+        else:
+            current_cards[1] = red_cards
 
 
 if __name__ == "__main__":

@@ -151,3 +151,9 @@ yellow_card:
 - yellow_card.wav T
 red_card:
 - red_card.wav T
+
+duplicate_gamecontroller:
+- duplicate_gamecontroller.wav
+
+duplicate_vision:
+- duplicate_vision.wav

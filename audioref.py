@@ -62,9 +62,10 @@ def open_multicast_socket(ip: str, port: int) -> socket.socket:
     return sock
 
 _Message = TypeVar('_Message', bound=Message)
-def receive_multicast(sock: socket.socket, msg: _Message) -> _Message:
-    msg.ParseFromString(sock.recv(65535))
-    return msg
+def receive_multicast(sock: socket.socket, msg: _Message) -> Tuple[_Message, str]:
+    data, addr = sock.recvfrom(65535)
+    msg.ParseFromString(data)
+    return msg, addr[0]
 
 
 class SoundPack:
@@ -145,12 +146,13 @@ class AudioRef:
         self.player_thread.start()
 
         self.half_field_size = [4500.0, 3000.0]
+        self.cam_ips = {}
         self.geometry_thread = threading.Thread(target=self._geometry_receiver, name='vision receiver', daemon=True)
         self.geometry_thread.start()
 
         # Initialize the current state to prevent sound spam when restarting the AudioRef mid-game
         print("Waiting for referee message...")
-        msg = receive_multicast(self.gc_socket, Referee())
+        msg, self.gc_ip = receive_multicast(self.gc_socket, Referee())
 
         self.current = {
             'stage': msg.stage,
@@ -177,17 +179,27 @@ class AudioRef:
     def _geometry_receiver(self):
         """SSL-Vision geometry receiver thread"""
         while True:
-            wrapper = receive_multicast(self.vision_socket, SSL_WrapperPacket())
+            wrapper, ip = receive_multicast(self.vision_socket, SSL_WrapperPacket())
+
             if wrapper.HasField('geometry'):
                 field = wrapper.geometry.field
                 self.half_field_size = [field.field_length/2, field.field_width/2]
+            else:
+                cam_id = wrapper.detection.camera_id
+                if cam_id not in self.cam_ips:
+                    self.cam_ips[cam_id] = ip
+                elif self.cam_ips[cam_id] != ip:
+                    self.play_sound('duplicate_vision')
 
     def run(self):
         """SSL-game controller receiver and sound queueing method"""
         print("Initialized. AudioRef running")
 
         while True:
-            msg = receive_multicast(self.gc_socket, Referee())
+            msg, ip = receive_multicast(self.gc_socket, Referee())
+            if ip != self.gc_ip:
+                self.play_sound('duplicate_gamecontroller')
+                continue  # Do not spam frequent state changes due to duplicate gamecontroller
 
             self.enum_sound(self.command, Referee.Command, msg)
             self.enum_sound(self.stage, Referee.Stage, msg)

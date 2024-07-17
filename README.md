@@ -100,6 +100,8 @@ A sound pack is a folder containing `.wav` sound files and an `config.yml` file 
   [ssl_gc_game_event.proto:522 GameEvent.Type](proto/ssl_gc_game_event.proto) enum (in lower case).
 - `yellow_card` sound lines are played for each yellow card counter increment.
 - `red_card` sound lines are played for each red card counter increment.
+- `duplicate_vision` sound lines are played when different ip addresses send detections for the same camera id.
+- `duplicate_gamecontroller` sound lines are played when different ip addresses send game controller data.
 
 A *sound line* is one or more sounds separated by a space character to build compound sounds for events,
 e.g.: `foul.wav T keeper_held_ball.wav`.

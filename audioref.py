@@ -186,10 +186,9 @@ class AudioRef:
                 self.half_field_size = [field.field_length/2, field.field_width/2]
             else:
                 cam_id = wrapper.detection.camera_id
-                if cam_id not in self.cam_ips:
-                    self.cam_ips[cam_id] = ip
-                elif self.cam_ips[cam_id] != ip:
+                if cam_id in self.cam_ips and self.cam_ips[cam_id] != ip:
                     self.play_sound('duplicate_vision')
+                self.cam_ips[cam_id] = ip
 
     def run(self):
         """SSL-game controller receiver and sound queueing method"""
@@ -199,7 +198,8 @@ class AudioRef:
             msg, ip = receive_multicast(self.gc_socket, Referee())
             if ip != self.gc_ip:
                 self.play_sound('duplicate_gamecontroller')
-                continue  # Do not spam frequent state changes due to duplicate gamecontroller
+                self.gc_ip = ip
+                continue  # Do not spam frequent state changes due to toggling gamecontroller
 
             self.enum_sound(self.command, Referee.Command, msg)
             self.enum_sound(self.stage, Referee.Stage, msg)

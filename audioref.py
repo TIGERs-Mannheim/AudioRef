@@ -196,7 +196,10 @@ class AudioRef:
 
         while True:
             msg, ip = receive_multicast(self.gc_socket, Referee())
-            if ip != self.gc_ip:
+            if self.gc_ip == '127.0.0.1':
+                self.gc_ip = ip
+
+            if ip != '127.0.0.1' and ip != self.gc_ip:
                 self.play_sound('duplicate_gamecontroller')
                 self.gc_ip = ip
                 continue  # Do not spam frequent state changes due to toggling gamecontroller

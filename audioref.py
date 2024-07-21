@@ -308,8 +308,10 @@ class AudioRef:
 
 
 def anti_standby_sound():
-    sound = simpleaudio.WaveObject.from_wave_file(os.path.dirname(__file__) + "/anti_standby_sound.wav")
+    from time import sleep
+    sound = simpleaudio.WaveObject.from_wave_file(str(pathlib.Path(__file__).parent / "anti_standby_sound.wav"))
     while True:
+        sleep(1.0)
         sound.play()
 
 
@@ -322,7 +324,7 @@ if __name__ == "__main__":
     parser.add_argument('--vision_port', type=int, default=10006, help='Multicast port of the vision (default: 10006)')
     parser.add_argument('--pack', default='sounds/en', type=pathlib.Path, help='Path to the sound pack (default: sounds/en)')
     parser.add_argument('--max_queue_len', type=int, default=3, help='Maximum amount of sound lines in the queue (default: 3)')
-    parser.add_argument('--anti_standby_sound', type=bool, default=False, help='Plays a quiet very low frequency sound to prevent battery powered speakers from switching into standby mode (default: false)')
+    parser.add_argument('--anti_standby_sound', action='store_true', help='Plays a quiet very low frequency sound to prevent battery powered speakers from switching into standby mode (default: false)')
     args = parser.parse_args()
 
     if args.anti_standby_sound:

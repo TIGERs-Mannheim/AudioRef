@@ -23,6 +23,8 @@ teams:
   - teams/twente.wav
   "luhbots":
   - teams/luhbots.wav
+  "SeeGoals":
+  - teams/seegoals.wav
 
 stages:
   normal_half_time:

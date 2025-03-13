@@ -35,6 +35,8 @@ teams:
   - teams/robojackets.wav
   "RoboTeam Twente":
   - teams/twente.wav
+  "SeeGoals":
+  - teams/seegoals.wav
   "SRC":
   - teams/src.wav
   "TIGERs Mannheim":

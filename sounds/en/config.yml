@@ -39,17 +39,23 @@ teams:
   - teams/seegoals.wav
   "SRC":
   - teams/src.wav
+  "Sysmic Robotics":
+  - teams/sysmic.wav
   "TIGERs Mannheim":
   - teams/tigers1.wav
   - teams/tigers2.wav
   "Tritons RCSC":
   - teams/tritons.wav
+  "The Bots":
+  - teams/the_bots.wav
   "TurtleRabbit":
   - teams/turtlerabbit.wav
   "UBC Thunderbots":
   - teams/thunderbots.wav
+  "Warthog Robotics":
+  - teams/warthog.wav
   "ZJUNlict":
-  - teams/zjunlict.wav
+  - teams/zjunlict2.wav
 
 stages:
   normal_half_time:

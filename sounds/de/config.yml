@@ -25,6 +25,8 @@ teams:
   - teams/luhbots.wav
   "SeeGoals":
   - teams/seegoals.wav
+  "KIKS":
+  - teams/kiks.wav
 
 stages:
   normal_half_time:

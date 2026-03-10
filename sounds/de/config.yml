@@ -27,6 +27,8 @@ teams:
   - teams/seegoals.wav
   "KIKS":
   - teams/kiks.wav
+  "N.R.G":
+  - teams/nrg.wav
 
 stages:
   normal_half_time:

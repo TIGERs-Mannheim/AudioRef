@@ -11,6 +11,8 @@ teams:
   - teams/delftmercurians.wav
   "ER-Force":
   - teams/er-force.wav
+  "GreenTea":
+  - teams/greentea.wav
   "Immortals":
   - teams/immortals.wav
   "ITAndroids":
@@ -25,6 +27,8 @@ teams:
   - teams/ri-one.wav
   "RobôCin":
   - teams/robocin.wav
+  "Robocup Junior SSL Team":
+  - teams/junior.wav
   "RoboDragons":
   - teams/robodragons.wav
   "RoboFEI":
@@ -44,6 +48,8 @@ teams:
   "TIGERs Mannheim":
   - teams/tigers1.wav
   - teams/tigers2.wav
+  "TRAPS":
+  - teams/traps.wav
   "Tritons RCSC":
   - teams/tritons.wav
   "The Bots":

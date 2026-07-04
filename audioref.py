@@ -51,9 +51,7 @@ def open_multicast_socket(ip: str, port: int) -> socket.socket:
     # Adapted from https://stackoverflow.com/a/1794373 (CC BY-SA 4.0 by Gordon Wrigley)
     sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM, socket.IPPROTO_UDP)
     sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
-
-    # Windows does not allow binding UDP sockets to a specific ip address.
-    sock.bind(('' if os.name == 'nt' else ip, port))
+    sock.bind(('', port))
 
     sock.setsockopt(
         socket.IPPROTO_IP, socket.IP_ADD_MEMBERSHIP,
